@@ -9,6 +9,11 @@ python-decouple = "*"
 "psycopg2-binary" = "*"
 django = "*"
 requests = "*"
+djangorestframework = "*"
+django-rest-auth = "*"
+django-allauth = "*"
+django-rest-api = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 pylint = "*"
