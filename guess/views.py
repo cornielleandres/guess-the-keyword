@@ -1,11 +1,27 @@
 from django.shortcuts	import render
 from decouple			import config
+from .models			import CurrentGame
+from .utils				import get_random_word
 import requests
 
 def index(request):
+	user = request.user
+	if not user.is_authenticated:
+		return login(request)
+	try:
+		current_game = CurrentGame.objects.get(user_id = user.id)
+		method = request.POST.get('_method', '')
+		if method == 'put':
+			current_game.delete()
+			search_term = get_random_word()
+			CurrentGame.objects.create(user = user, search_term = search_term)
+		else:
+			search_term = current_game.search_term
+	except CurrentGame.DoesNotExist:
+		search_term = 'no'
+		CurrentGame.objects.create(user = user, search_term = search_term)
 	api_key = config('GOOGLE_API_KEY')
 	google_cs_id = config('GOOGLE_CS_ID')
-	search_term = 'house'
 	request_url = (
 		'https://www.googleapis.com/customsearch/v1?'
 		'q=' + search_term +
@@ -17,12 +33,21 @@ def index(request):
 		'&key=' + api_key
 	)
 	response = requests.get(request_url)
-	user = request.user
 	results = response.json()
-	print(results)
-	images = [ image['link'] for image in results['items'] ]
+	try:
+		images = [ image['link'] for image in results['items'] ]
+	except:
+		error = results['error']
+		return render(request, 'guess/error.html', { 'error': error })
 	context = {
-		'user': user,
 		'images': images,
+		'search_term': search_term,
+		'user': user,
 	}
+	if request.method == 'POST':
+		guess = request.POST.get('guess', False)
+		context['guess'] = guess
 	return render(request, 'guess/index.html', context)
+
+def login(request):
+	return render(request, 'guess/login.html', {})
