@@ -8,8 +8,10 @@ dj-database-url = "*"
 python-decouple = "*"
 "psycopg2-binary" = "*"
 django = "*"
+requests = "*"
 
 [dev-packages]
+pylint = "*"
 
 [requires]
 python_version = "3.7"
