@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang = 'en'>
 	<head>
-		<meta charset="UTF-8">
+		<meta charset = 'UTF-8'>
+		<meta name = 'description' content = 'Guess The Keyword Game'>
+		<meta name = 'author' content = 'Carlos Vargas'>
+		<meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'>
 		<title>Guess the Keyword</title>
 	</head>
 	<body>
@@ -10,8 +13,25 @@
 			<p>
 				{{ user.username }}
 			</p>
+			{% if guess %}
+				{% if guess == search_term %}
+					<form action = '{% url 'guess:index' %}' method = 'post'>
+						{% csrf_token %}
+						<p>You guessed correctly! The answer was {{ search_term }}</p>
+						<input type = 'hidden' name = '_method' value = 'put'>
+						<input type = 'submit' value = 'Next'>
+					</form>
+				{% else %}
+					<p>Your guess of {{ guess }} was wrong.</p>
+				{% endif %}
+			{% endif %}
+			<form action = '{% url 'guess:index' %}' method = 'post'>
+				{% csrf_token %}
+				<input type = 'text' name = 'guess' placeholder = 'Enter guess'>
+				<input type = 'submit' value = 'Submit'>
+			</form>
 			{% for image in images %}
-				<img src = {{ image }} alt = '' />
+				<img src = {{ image }} alt = ''>
 			{% endfor %}
 		{% else %}
 			<p>Not logged in.</p>

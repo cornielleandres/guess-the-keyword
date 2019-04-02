@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+	<head>
+		<meta charset = 'UTF-8'>
+		<meta name = 'description' content = 'Guess The Keyword Game'>
+		<meta name = 'author' content = 'Carlos Vargas'>
+		<meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'>
+		<title>Guess the Keyword</title>
+	</head>
+	<body>
+		<h1>Guess The Keyword!</h1>
+		{% if user.is_authenticated %}
+			<p>
+				{{ user.username }}
+			</p>
+			<p>Error {{ error.code }}</p>
+			{% for err in error.errors %}
+				<p>{{ err.domain }}</p>
+				<p>{{ err.reason }}</p>
+				<p>{{ err.message }}</p>
+				<p>{{ err.extendedHelp }}</p>
+			{% endfor %}
+		{% else %}
+			<p>Not logged in.</p>
+		{% endif %}
+	</body>
+</html>
