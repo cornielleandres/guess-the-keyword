@@ -1,8 +1,20 @@
-<h1>Hi!!</h1>
-{% if user.is_authenticated %}
-	<p>
-		{{ user.username }}
-	</p>
-{% else %}
-	<p>Not logged in.</p>
-{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Guess the Keyword</title>
+	</head>
+	<body>
+		<h1>Guess The Keyword!</h1>
+		{% if user.is_authenticated %}
+			<p>
+				{{ user.username }}
+			</p>
+			{% for image in images %}
+				<img src = {{ image }} alt = '' />
+			{% endfor %}
+		{% else %}
+			<p>Not logged in.</p>
+		{% endif %}
+	</body>
+</html>
