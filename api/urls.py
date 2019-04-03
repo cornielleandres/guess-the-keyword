@@ -1,9 +1,5 @@
-from django.urls		import include, path
-from django.conf.urls	import url
-from .					import views
+from django.urls		import include, re_path
 
-app_name = 'api'
 urlpatterns = [
-	path('accounts/', include('django.contrib.auth.urls'), name = 'login'),
-	path('accounts/register/', views.Register.as_view(), name = 'register'),
+	re_path(r'^accounts/', include('allauth.urls')),
 ]

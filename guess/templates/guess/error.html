@@ -4,7 +4,7 @@
 
 {% block content %}
 	<p>{{ user.username }}</p>
-	<p><a href='{% url "api:logout" %}'>logout</a></p>
+	<p><a href='{% url "account_logout" %}'>logout</a></p>
 	<p>Error {{ error.code }}</p>
 	{% for err in error.errors %}
 		<p>{{ err.domain }}</p>
