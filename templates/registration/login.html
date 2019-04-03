@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+	<h2>The API Login</h2>
+	<form method="post">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit">Login</button>
+		<p><a href='{% url "api:register" %}'>Register</a></p>
+	</form>
+{% endblock %}
