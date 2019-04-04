@@ -1,46 +1,66 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% load i18n %}
+{% load widget_tweaks %}
 {% load account socialaccount %}
 
-{% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block head_title %}Login - {{ site.name }}{% endblock %}
 
 {% block content %}
+	<h1 class="text-center">Log In</h1>
 
-<h1>{% trans "Sign In" %}</h1>
+	{% get_providers as socialaccount_providers %}
 
-{% get_providers as socialaccount_providers %}
+	{% if socialaccount_providers %}
+		<div class="socialaccount_ballot container d-flex flex-column align-items-center justify-content-center">
+			<ul class="socialaccount_providers list-group list-unstyled p-0 col-12 col-md-8 col-lg-6">
+				{% include "account/styled_provider_list.html" with process="login" %}
+			</ul>
+			<div class="login-or text-center m-2">or</div>
+		</div>
+		{% include "socialaccount/snippets/login_extra.html" %}
+	{% endif %}
 
-{% if socialaccount_providers %}
-<p>{% blocktrans with site.name as site_name %}Please sign in!! with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+	<form class="login container form-horizontal" method="POST" action="{% url 'account_login' %}">
+		{% csrf_token %}
 
-<div class="socialaccount_ballot">
+		<div class="form-group container">
+			{{ form.non_field_errors|add_class:"col-12" }}
 
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
+			<div class="fieldWrapper row d-flex align-items-center justify-content-center">
+				{{ form.login.errors|add_class:"col-12" }}
+				<label class="col-12 col-sm-4 col-md-2" for="{{ form.login.id_for_label }}">Usernamer:</label>
+				{{ form.login|add_class:"form-control col-12 col-sm-8 col-md-6 col-lg-4"|attr:"autocomplete:username" }}
+			</div>
 
-  <div class="login-or">{% trans 'or' %}</div>
+			<div class="fieldWrapper row d-flex align-items-center justify-content-center mt-2 mb-2">
+				{{ form.password.errors|add_class:"col-12" }}
+				<label class="col-12 col-sm-4 col-md-2" for="{{ form.password.id_for_label }}">Password:</label>
+				{{ form.password|add_class:"form-control col-12 col-sm-8 col-md-6 col-lg-4"|attr:"autocomplete:current-password" }}
+			</div>
 
-</div>
+			<div class="fieldWrapper form-check form-check-inline row d-flex align-items-center justify-content-center">
+				{{ form.remember.errors|add_class:"col-12" }}
+				<label class="form-check-label" for="{{ form.remember.id_for_label }}">
+					Remember Me:&nbsp;
+				</label>
+				{{ form.remember|add_class:"form-check-input" }}
+			</div>
+		</div>
 
-{% include "socialaccount/snippets/login_extra.html" %}
+		{% if redirect_field_value %}
+			<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+		{% endif %}
 
-{% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-{% endif %}
+		<div class="row justify-content-center">
+			<button class="primaryAction btn btn-primary col-8 col-sm-6 col-md-4 col-lg-3" type="submit">Log in</button>
+		</div>
 
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-</form>
+		<div class="row justify-content-center m-2">
+			<a class="button secondaryAction" href="{% url 'account_reset_password' %}">Forgot Password?</a>
+		</div>
 
+		<div class="row justify-content-center">
+			<a class="button secondaryAction" href="{% url 'account_signup' %}">Sign Up!</a>
+		</div>
+	</form>
 {% endblock %}
