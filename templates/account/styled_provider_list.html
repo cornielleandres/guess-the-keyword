@@ -10,15 +10,21 @@
 					title="{{brand.name}}"
 					class="socialaccount_provider {{provider.id}} {{brand.id}} text-center"
 					href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
-				>{{brand.name}}</a>
+				>
+					<i class="fab fa-{{ brand.name.lower }} col-6 text-right"></i>
+					<span class="col-6 text-left p-0">{{brand.name}}</span>
+				</a>
 			</li>
 		{% endfor %}
 	{% endif %}
-	<li>
+	<li class="list-group-item">
 		<a
 			title="{{provider.name}}"
-			class="socialaccount_provider {{provider.id}} list-group-item list-group-item-action text-center" 
+			class="socialaccount_provider {{provider.id}} list-group-item list-group-item-action text-center d-flex justify-content-center align-items-center" 
 			href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"
-		>{{provider.name}}</a>
+		>
+			<i class="fab fa-{{ provider.name.lower }} col-6 text-right"></i>
+			<span class="col-6 text-left p-0">{{provider.name}}</span>
+		</a>
 	</li>
 {% endfor %}
