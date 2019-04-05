@@ -4,6 +4,7 @@
 
 {% block content %}
 	<p>{{ message }}</p>
+	<p>The word was {{ current_search_term }}.</p>
 	<p>Total points won: {{ points }}</p>
 	<form action = "{% url "guess:index" %}" method = "get">
 		{% csrf_token %}

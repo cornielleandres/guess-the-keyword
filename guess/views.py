@@ -19,7 +19,8 @@ def index(request):
 	else: # else if current game exists for this user
 		if request.method == 'POST': # if a post request was made, they took a guess
 			guess = request.POST.get('guess', False).lower().strip()
-			if guess == current_game.search_term: # if user guessed correctly
+			current_search_term = current_game.search_term
+			if guess == current_search_term: # if user guessed correctly
 				current_game.points = current_game.points + 1
 				current_game.search_term = get_random_word()
 				current_game.save()
@@ -42,8 +43,8 @@ def index(request):
 						message = 'Game over!'
 					current_game = CurrentGame.objects.get(user_id = user.id)
 					current_game.delete()
-					# high_scores = [ score for score in high_scores ]
 					context = {
+						'current_search_term': current_search_term,
 						'message': message,
 						'points': current_game.points,
 						'high_scores': HighScore.objects.all().order_by('-points'),
@@ -51,7 +52,13 @@ def index(request):
 					return render(request, 'guess/game-over.html', context)
 		search_term = current_game.search_term
 	pixabay_key = config('PIXABAY_KEY')
-	url = 'https://pixabay.com/api/?key={}&q={}'.format(pixabay_key, search_term)
+	image_type = 'vector'
+	url = (
+		'https://pixabay.com/api/?'
+		'key=' + pixabay_key +
+		'&q=' + search_term +
+		'&image_type=' + image_type
+	)
 	response = requests.get(url)
 	results = response.json()
 	try:
@@ -61,11 +68,13 @@ def index(request):
 		error = results['error']
 		context = { 'error': error }
 		return render(request, 'guess/error.html', context)
+	word_clue = [ '_' for i in range(len(search_term)) ]
+	word_clue[0] = search_term[0]
 	context = {
 		'images': images,
 		'message': message,
 		'points': current_game.points,
-		'search_term_length': range(len(search_term)),
+		'word_clue': word_clue,
 		'strikes': current_game.strikes,
 		'user': user,
 	}

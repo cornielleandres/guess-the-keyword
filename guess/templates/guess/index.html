@@ -8,8 +8,8 @@
 	<p>Strikes: {{ strikes }}</p>
 	<div>
 		<span>Word:</span>
-		{% for i in search_term_length %}
-			<span>&nbsp;_&nbsp;</span>
+		{% for char in word_clue %}
+			<span>&nbsp;{{ char }}&nbsp;</span>
 		{% endfor %}
 	</div>
 	<form action = '{% url "guess:index" %}' method = 'post'>
