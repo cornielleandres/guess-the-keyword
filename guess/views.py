@@ -65,7 +65,7 @@ def index(request):
 		'images': images,
 		'message': message,
 		'points': current_game.points,
-		'search_term': search_term,
+		'search_term_length': range(len(search_term)),
 		'strikes': current_game.strikes,
 		'user': user,
 	}

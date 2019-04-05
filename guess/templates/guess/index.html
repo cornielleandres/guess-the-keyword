@@ -6,6 +6,12 @@
 	<p>Message: {{ message }}</p>
 	<p>Points: {{ points }}</p>
 	<p>Strikes: {{ strikes }}</p>
+	<div>
+		<span>Word:</span>
+		{% for i in search_term_length %}
+			<span>&nbsp;_&nbsp;</span>
+		{% endfor %}
+	</div>
 	<form action = '{% url "guess:index" %}' method = 'post'>
 		{% csrf_token %}
 		<input type = 'text' name = 'guess' placeholder = 'Enter guess'>
