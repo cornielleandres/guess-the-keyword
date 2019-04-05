@@ -42,7 +42,12 @@ def index(request):
 						message = 'Game over!'
 					current_game = CurrentGame.objects.get(user_id = user.id)
 					current_game.delete()
-					context = { 'message': message, 'points': current_game.points }
+					# high_scores = [ score for score in high_scores ]
+					context = {
+						'message': message,
+						'points': current_game.points,
+						'high_scores': HighScore.objects.all().order_by('-points'),
+					}
 					return render(request, 'guess/game-over.html', context)
 		search_term = current_game.search_term
 	pixabay_key = config('PIXABAY_KEY')

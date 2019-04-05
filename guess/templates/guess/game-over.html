@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}Game Over{% endblock %}
 
 {% block content %}
 	<p>{{ message }}</p>
 	<p>Total points won: {{ points }}</p>
-	<form action = '{% url "guess:index" %}' method = 'get'>
+	<form action = "{% url "guess:index" %}" method = "get">
 		{% csrf_token %}
-		<input type = 'submit' value = 'Restart'>
+		<input type = "submit" value = "Restart">
 	</form>
+	{% include "guess/high-scores.html" with high_scores=high_scores %}
 {% endblock %}
