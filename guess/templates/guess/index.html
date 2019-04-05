@@ -3,26 +3,15 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-	<p>Hi {{ user.username }}!</p>
-	<p><a href='{% url "account_logout" %}'>logout</a></p>
-	{% if guess %}
-		{% if guess == search_term %}
-			<form action = '{% url "guess:index" %}' method = 'post'>
-				{% csrf_token %}
-				<p>You guessed correctly! The answer was {{ search_term }}</p>
-				<input type = 'hidden' name = '_method' value = 'put'>
-				<input type = 'submit' value = 'Next'>
-			</form>
-		{% else %}
-			<p>Your guess of {{ guess }} was wrong.</p>
-		{% endif %}
-	{% endif %}
+	<p>Message: {{ message }}</p>
+	<p>Points: {{ points }}</p>
+	<p>Strikes: {{ strikes }}</p>
 	<form action = '{% url "guess:index" %}' method = 'post'>
 		{% csrf_token %}
 		<input type = 'text' name = 'guess' placeholder = 'Enter guess'>
 		<input type = 'submit' value = 'Submit'>
 	</form>
 	{% for image in images %}
-		<img src = {{ image }} alt = ''>
+		<div><img src = {{ image }} alt = ''></div>
 	{% endfor %}
 {% endblock %}

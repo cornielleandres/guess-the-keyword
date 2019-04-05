@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Game Over{% endblock %}
+
+{% block content %}
+	<p>{{ message }}</p>
+	<p>Total points won: {{ points }}</p>
+	<form action = '{% url "guess:index" %}' method = 'get'>
+		{% csrf_token %}
+		<input type = 'submit' value = 'Restart'>
+	</form>
+{% endblock %}
