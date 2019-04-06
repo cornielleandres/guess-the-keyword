@@ -15,6 +15,7 @@ django-rest-api = "*"
 django-cors-headers = "*"
 djangorestframework = "*"
 django-widget-tweaks = "*"
+whitenoise = "*"
 
 [dev-packages]
 pylint = "*"
