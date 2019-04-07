@@ -19,9 +19,9 @@
 		<title>{% block head_title %}{{ site.name }}{% endblock %}</title>
 	</head>
 	<body>
-		<div class="base d-flex flex-column justify-content-center align-items-center">
+		<div class="base d-flex flex-column justify-content-center align-items-center text-muted">
 			{% include "header.html" %}
-			<div class="content">
+			<div class="content container pt-2">
 				{% block content %}
 				{% endblock %}
 			</div>

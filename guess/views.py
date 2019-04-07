@@ -27,7 +27,6 @@ def index(request):
 				message = 'CORRECT! The keyword was {}!'.format(guess)
 			else: # else if user guessed wrong
 				current_game.strikes = current_game.strikes + 1
-				current_game.search_term = get_random_word()
 				current_game.save()
 				message = 'Nope. It\'s not {}.'.format(guess)
 				if current_game.strikes >= 3: # if user made 3 wrong guesses
@@ -62,20 +61,21 @@ def index(request):
 	response = requests.get(url)
 	results = response.json()
 	try:
-		# get top 10 images
-		images = [ hit['webformatURL'] for i, hit in enumerate(results['hits']) if i < 10 ]
+		# get top 12 images
+		images = [ hit['webformatURL'] for i, hit in enumerate(results['hits']) if i < 12 ]
 	except:
 		error = results['error']
 		context = { 'error': error }
 		return render(request, 'guess/error.html', context)
 	word_clue = [ '_' for i in range(len(search_term)) ]
+	strikes = [ 'x' for i in range(current_game.strikes) ]
 	word_clue[0] = search_term[0]
 	context = {
 		'images': images,
 		'message': message,
 		'points': current_game.points,
 		'word_clue': word_clue,
-		'strikes': current_game.strikes,
+		'strikes': strikes,
 		'user': user,
 	}
 	return render(request, 'guess/index.html', context)
