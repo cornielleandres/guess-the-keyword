@@ -35,23 +35,26 @@ def index(request):
 				message = 'Sorry. It wasn\'t {}. The word was {}. You have {} left.'.format(guess, current_search_term, strikes_msg)
 				if current_game.strikes >= 3: # if user made 3 wrong guesses
 					high_scores = HighScore.objects.all().order_by('points')
-					lowest_high_score = high_scores[0]
-					# if user got equal or more points than the lowest high score
-					if lowest_high_score.points <= current_game.points:
-						if len(high_scores) >= 3: # if there are already 3 high scores
-							lowest_high_score.delete()
+					high_scores_len = len(high_scores)
+					message = 'Game over! You got a high score!'
+					if high_scores_len > 0: # if there are high scores
+						lowest_high_score = high_scores[0]
+						# if user got equal or more points than the lowest high score
+						if lowest_high_score.points <= current_game.points:
+							if high_scores_len >= 3: # if there are already 3 high scores
+								lowest_high_score.delete()
+							HighScore.objects.create(user = user, points = current_game.points)
+						else: # else if user did not get a high score
+							message = 'Game over!'
+					else: # else if there are no high scores
 						HighScore.objects.create(user = user, points = current_game.points)
-						message = 'Game over! You got a high score!'
-					else: # else if user did not get a high score
-						message = 'Game over!'
-					current_game = CurrentGame.objects.get(user_id = user.id)
-					current_game.delete()
 					context = {
 						'current_search_term': current_search_term,
 						'message': message,
 						'points': current_game.points,
 						'high_scores': HighScore.objects.all().order_by('-points'),
 					}
+					current_game.delete()
 					return render(request, 'guess/game-over.html', context)
 			current_game.search_term = get_random_word()
 			current_game.save()
