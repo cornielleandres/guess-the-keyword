@@ -22,13 +22,17 @@ def index(request):
 			current_search_term = current_game.search_term
 			if guess == current_search_term: # if user guessed correctly
 				current_game.points = current_game.points + 1
-				current_game.search_term = get_random_word()
-				current_game.save()
-				message = 'CORRECT! The keyword was {}!'.format(guess)
+				message = 'CORRECT! The word was {}!'.format(guess)
 			else: # else if user guessed wrong
 				current_game.strikes = current_game.strikes + 1
 				current_game.save()
-				message = 'Nope. It\'s not {}.'.format(guess)
+				if guess == '': guess = 'blank'
+				strikes_left = 3 - current_game.strikes
+				if strikes_left == 1:
+					strikes_msg = '1 strike'
+				else:
+					strikes_msg = '{} strikes'.format(strikes_left)
+				message = 'Sorry. It wasn\'t {}. The word was {}. You have {} left.'.format(guess, current_search_term, strikes_msg)
 				if current_game.strikes >= 3: # if user made 3 wrong guesses
 					high_scores = HighScore.objects.all().order_by('points')
 					lowest_high_score = high_scores[0]
@@ -49,6 +53,8 @@ def index(request):
 						'high_scores': HighScore.objects.all().order_by('-points'),
 					}
 					return render(request, 'guess/game-over.html', context)
+			current_game.search_term = get_random_word()
+			current_game.save()
 		search_term = current_game.search_term
 	pixabay_key = config('PIXABAY_KEY')
 	image_type = 'vector'
