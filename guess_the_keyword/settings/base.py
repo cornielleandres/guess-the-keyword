@@ -58,10 +58,6 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'api.CustomUser'
 ACCOUNT_LOGOUT_ON_GET = True
 
-ACCOUNT_FORMS = {
-    'signup': 'api.forms.CustomSignupForm',
-}
-
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
