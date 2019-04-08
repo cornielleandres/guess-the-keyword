@@ -4,7 +4,7 @@
 
 <header class="container">
 	<div class="row h-100">
-		<div class="h-100 col-12 col-sm-6 text-center">
+		<div class="h-100 col-12 col-sm-6 text-center text-sm-left">
 			<img class="img" src="{% static "guess/images/guess-logo.png" %}" alt="logo">
 		</div>
 		<div class="d-flex align-items-center justify-content-center justify-content-sm-end flex-wrap flex-sm-nowrap col-12 col-sm-6">
@@ -12,7 +12,7 @@
 				<span class="text-center text-md-right text-truncate mb-2 mb-sm-0 col-12 col-sm">{{ user.username }}</span>
 				<a class="btn btn-primary p-2 p-md-1 col-12 col-sm-6 col-lg-4" href="{% url "account_logout" %}">Log Out</a>
 			{% else %}
-				<a class="btn btn-primary ml-2" href="{% url "account_login" %}">Log In</a>
+				<a class="btn btn-primary mt-2 ms-md-0 p-2 p-md-1 col-10 col-sm-6 col-lg-4" href="{% url "account_login" %}">Log In</a>
 			{% endif %}
 		</div>
 	</div>

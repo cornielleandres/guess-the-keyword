@@ -1,0 +1,22 @@
+.underscores {
+	font-size: 6vw;
+	font-weight: bolder;
+}
+
+@media (min-width: 576px) {
+	.underscores {
+		font-size: 5vw;
+	}
+}
+
+@media (min-width: 768px) {
+	.underscores {
+		font-size: 4vw;
+	}
+}
+
+@media (min-width: 992px) {
+	.underscores {
+		font-size: 3vw;
+	}
+}

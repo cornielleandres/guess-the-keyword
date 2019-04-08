@@ -1,22 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% load static %}
+
+{% block head_title %}Home - {{ site_name }}{% endblock %}
 
 {% block content %}
-	<div class="row">
-		<div class="text-center text-danger h3 col-6">
-			{% for i in strikes %}
-				<i class="fas fa-times-circle"></i>
-			{% endfor %}
-		</div>
-		<span class="text-center h5 col-6">
-			{{ points }}&nbsp;point{% if points != 1 %}s{% endif %}
-		</span>
-	</div>
+	<link rel="stylesheet" href="{% static "guess/css/index.css" %}" />
 	<p class="text-center">{{ message }}</p>
 	<div class="text-center">
 		{% for char in word_clue %}
-			<span><strong>&nbsp;{{ char }}&nbsp;</strong></span>
+			<span class="underscores"><strong>&nbsp;{{ char }}&nbsp;</strong></span>
 		{% endfor %}
 	</div>
 	<form class="form-inline container d-flex justify-content-center" action = "{% url "guess:index" %}" method = "post">
@@ -24,6 +17,20 @@
 		<input class="form-control mt-2 mb-2 mr-sm-2 col-12 col-sm-6 col-lg-4" type = "text" name = "guess" placeholder = "Enter guess">
 		<input class="btn btn-primary p-2 p-md-1 col-12 col-sm-4 col-md-3 col-lg-2" type = "submit" value = "Submit">
 	</form>
+	<div class="row mt-2">
+		<div class="text-center col-12">
+			{% for i in strikes %}
+				<i class="fas fa-times-circle text-danger h3"></i>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="text-center col-12">
+			<span class="h5">
+				{{ points }}&nbsp;point{% if points != 1 %}s{% endif %}
+			</span>
+		</div>
+	</div>
 	<div class="text-center pt-5 pb-3 d-flex flex-wrap">
 		{% for image in images %}
 			<div class="col-12 col-md-6 col-lg-4">
