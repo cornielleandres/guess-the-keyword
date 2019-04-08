@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 {% load account socialaccount %}
 
-{% block head_title %}Login - {{ site.name }}{% endblock %}
+{% block head_title %}Log in - {{ site.name }}{% endblock %}
 
 {% block content %}
 	<h2 class="text-center">Log In</h2>
@@ -24,20 +24,28 @@
 		{% csrf_token %}
 
 		<div class="form-group container">
-			{{ form.non_field_errors|add_class:"col-12" }}
+			<div class="row d-flex flex-column align-items-center justify-content-center">
+				{{ form.non_field_errors }}
+			</div>
 
 			<div class="fieldWrapper row d-flex align-items-center justify-content-center">
-				{{ form.login.errors|add_class:"col-12" }}
+				<div class="d-flex flex-column align-items-center justify-content-center col-12">
+					{{ form.login.errors }}
+				</div>
 				{{ form.login|add_class:"form-control col-12 col-sm-8 col-md-6 col-lg-4"|attr:"autocomplete:username" }}
 			</div>
 
 			<div class="fieldWrapper row d-flex align-items-center justify-content-center mt-2 mb-2">
-				{{ form.password.errors|add_class:"col-12" }}
+				<div class="d-flex flex-column align-items-center justify-content-center col-12">
+					{{ form.password.errors }}
+				</div>
 				{{ form.password|add_class:"form-control col-12 col-sm-8 col-md-6 col-lg-4"|attr:"autocomplete:current-password" }}
 			</div>
 
 			<div class="fieldWrapper form-check form-check-inline row d-flex align-items-center justify-content-center">
-				{{ form.remember.errors|add_class:"col-12" }}
+				<div class="d-flex flex-column align-items-center justify-content-center col-12">
+					{{ form.remember.errors }}
+				</div>
 				<label class="form-check-label" for="{{ form.remember.id_for_label }}">
 					Remember Me:&nbsp;
 				</label>
