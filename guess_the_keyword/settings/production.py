@@ -23,3 +23,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+# Activate Django-Heroku
+import django_heroku
+
+django_heroku.settings(locals())
