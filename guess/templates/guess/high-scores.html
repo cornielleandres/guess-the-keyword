@@ -1,6 +1,6 @@
 {% block content %}
-	<p>High Scores</p>
+	<p class="text-center h2 mb-2">High Scores</p>
 	{% for score in high_scores %}
-		<p>{{ score.user }} - {{ score.points }} points</p>
+		<p>{{ score.user }}&nbsp;&nbsp;&nbsp;{{ score.points }} point{% if points != 1 %}s{% endif %}</p>
 	{% endfor %}
 {% endblock %}
