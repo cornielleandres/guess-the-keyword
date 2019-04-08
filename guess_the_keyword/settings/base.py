@@ -79,7 +79,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-        # From : http://whitenoise.evans.io/en/stable/django.html
+    # From : http://whitenoise.evans.io/en/stable/django.html
     # You might find other third-party middleware that suggests it should be given highest priority at the top of the middleware list. Unless you understand exactly what is happening you should ignore this advice and always place WhiteNoiseMiddleware above other middleware. If you plan to have other middleware run before WhiteNoise you should be aware of the request_finished bug in Django.
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -88,6 +88,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
 ]
 
 ROOT_URLCONF = 'guess_the_keyword.urls'
