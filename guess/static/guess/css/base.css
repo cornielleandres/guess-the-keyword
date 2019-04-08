@@ -1,7 +1,3 @@
 .base {
 	min-height: 100vh;
 }
-
-.base .content {
-	min-height: 90vh;
-}
