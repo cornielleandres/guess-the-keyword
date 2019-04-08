@@ -9,7 +9,7 @@ def index(request):
 	user = request.user
 	if not user.is_authenticated:
 		return redirect('account_login')
-	message = 'Guess what the keyword is.'
+	message = 'Guess what the keyword is from the images it returns.'
 	try: # see if a current game exists for this user
 		current_game = CurrentGame.objects.get(user_id = user.id)
 	except CurrentGame.DoesNotExist: # if current game does not exist for this user
@@ -69,12 +69,12 @@ def index(request):
 		return render(request, 'guess/error.html', context)
 	word_clue = [ '_' for i in range(len(search_term)) ]
 	strikes = [ 'x' for i in range(current_game.strikes) ]
-	word_clue[0] = search_term[0]
 	context = {
 		'images': images,
 		'message': message,
 		'points': current_game.points,
 		'word_clue': word_clue,
+		'site_name': request.site.name,
 		'strikes': strikes,
 		'user': user,
 	}
