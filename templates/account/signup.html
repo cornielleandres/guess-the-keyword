@@ -1,21 +1,57 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% load i18n %}
+{% load widget_tweaks %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_title %}Sign up{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
+	<h2 class="text-center">Sign Up</h2>
 
-<p>{% blocktrans %}Already have an account?!!!! Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+	<form class="signup container form-horizontal mt-4 mb-2" method="POST" action="{% url 'account_signup' %}">
+		{% csrf_token %}
 
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
+		<div class="form-group container">
+			<div class="row d-flex flex-column align-items-center justify-content-center">
+				{{ form.non_field_errors }}
+			</div>
 
+			<div class="fieldWrapper row d-flex align-items-center justify-content-center">
+				<div class="d-flex flex-column align-items-center justify-content-center col-12">
+					{{ form.username.errors }}
+				</div>
+				{{ form.username|add_class:"form-control col-12 col-sm-8 col-md-6 col-lg-4"|attr:"autocomplete:username" }}
+			</div>
+
+			<div class="fieldWrapper row d-flex align-items-center justify-content-center mt-2 mb-2">
+				<div class="d-flex flex-column align-items-center justify-content-center col-12">
+					{{ form.email.errors }}
+				</div>
+				{{ form.email|add_class:"form-control col-12 col-sm-8 col-md-6 col-lg-4"|attr:"autocomplete:current-password"|attr:"placeholder:E-mail address (Optional)" }}
+			</div>
+
+			<div class="fieldWrapper row d-flex align-items-center justify-content-center mt-2 mb-2">
+				<div class="d-flex flex-column align-items-center justify-content-center col-12">
+					{{ form.password1.errors }}
+				</div>
+				{{ form.password1|add_class:"form-control col-12 col-sm-8 col-md-6 col-lg-4"|attr:"autocomplete:current-password" }}
+			</div>
+
+			<div class="fieldWrapper row d-flex align-items-center justify-content-center mt-2 mb-2">
+				<div class="d-flex flex-column align-items-center justify-content-center col-12">
+					{{ form.password2.errors }}
+				</div>
+				{{ form.password2|add_class:"form-control col-12 col-sm-8 col-md-6 col-lg-4"|attr:"autocomplete:current-password" }}
+			</div>
+		</div>
+
+		{% if redirect_field_value %}
+			<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+		{% endif %}
+
+		<div class="row justify-content-center">
+			<button class="btn btn-primary col-8 col-sm-6 col-md-4 col-lg-3" type="submit">Sign Up &raquo;</button>
+		</div>
+	</form>
+
+	<p class="text-center">Already have an account? <a href="{{ login_url }}">Log in</a></p>
 {% endblock %}
